@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <script src="webjars/jquery/jquery.min.js"></script>
+  <script src="webjars/sockjs-client/sockjs.min.js"></script>
+  <script src="webjars/stomp-websocket/stomp.min.js"></script>
+  <script src="scripts.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 50px">
+<!-- 发送信息 -->
+  <div class="row">
+    <div class="col-md-10">
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="message">消息</label>
+          <input type="text" id="sendMessage" class="form-control" placeholder="请在此输入你的消息">
+        </div>
+        <button id="send" class="btn btn-default" type="button">发送</button>
+      </form>
+    </div>
+  </div>
+<!-- 获取到的信息 -->
+  <div class="row">
+    <div class="col-md-12">
+      <table id="message-history" class="table table-striped">
+        <thead>
+        <tr><th>消息</th></tr>
+        </thead>
+        <tbody id="showMessage">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>
