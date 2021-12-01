@@ -276,7 +276,7 @@ function sendPrivateMessage(){
 ### 5、添加服务器主动向客户端推送私信
 #### 1）在WsService中添加私信服务方法：
 ```java
-public void privateNotify(String id,String message){
+        public void privateNotify(String id,String message){
         ResponseMessage responseMessage=new ResponseMessage(message);
         //注：方法使用Touser,此处路径不加user
         template.convertAndSendToUser(id,"/topic/privateMessage",responseMessage);
