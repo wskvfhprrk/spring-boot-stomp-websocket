@@ -1,6 +1,6 @@
 # spring-boot-stomp-websocket
 spring boot 实现stomp的websocket通信
-## 配置
+## 一、配置
 ### 1、引用jar包
 ```xml
         <dependency>
@@ -160,7 +160,7 @@ $(document).ready(function(){
     })
 })
 ```
-## 服务器实现广播通信
+## 二、服务器实现广播通信
 ### 1、建立WsService
 ```java
 import com.hejz.springbootstomp.dto.ResponseMessage;
@@ -199,7 +199,7 @@ public class WsController {
 }
 ```
 ### 3、使用postman或其它测试工具测试（略）
-## 实现和单个用户通信
+## 三、实现和单个用户通信
 ### 1、区分用户在websocket进行所握手时给每个用户建立一个id可以区分客户端，建立Userhandshakehandler类
 ```java
 @Slf4j
@@ -272,4 +272,20 @@ function sendPrivateMessage(){
     stompClient.send("ws/privateMessage",{},JSON.stringify({"content":$("#sendPrivateMessage").val()}))
 }
 ```
-**注：私信连接路径前前加`/user/`**
+** 注：私信连接路径前前加`/user/`**
+### 5、添加服务器主动向客户端推送私信
+#### 1）在WsService中添加私信服务方法：
+```java
+public void privateNotify(String id,String message){
+        ResponseMessage responseMessage=new ResponseMessage(message);
+        //注：方法使用Touser,此处路径不加user
+        template.convertAndSendToUser(id,"/topic/privateMessage",responseMessage);
+    }
+```
+#### 2)WsController调用私信方法，开启接口：
+```java
+    @PostMapping("sendPrivateMessage")
+    public void sendMessage(String id,String message){
+        wsService.privateNotify(id,message);
+    }
+```

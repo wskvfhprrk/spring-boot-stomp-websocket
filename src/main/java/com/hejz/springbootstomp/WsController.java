@@ -12,4 +12,8 @@ public class WsController {
     public void sendMessage(String message){
         wsService.notify(message);
     }
+    @PostMapping("sendPrivateMessage")
+    public void sendMessage(String id,String message){
+        wsService.privateNotify(id,message);
+    }
 }
