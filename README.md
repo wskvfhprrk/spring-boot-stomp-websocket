@@ -224,3 +224,52 @@ public class Userhandshakehandler extends DefaultHandshakeHandler {
                 .withSockJS();
     }
 ```
+### 3、在MessageController中添加私信通道：
+```java
+    @MessageMapping("/privateMessage")
+    @SendToUser("/topic/privateMessage")
+    public ResponseMessage privateMessage(final Principal principal, final Message message) throws InterruptedException {
+        //模拟等待一秒
+        Thread.sleep(1000L);
+        //把获取到的message中的信息发送给客户端topic
+        return new ResponseMessage("用户："+principal.getName()+"发送的信息："+HtmlUtils.htmlEscape(message.getContent()));
+    }
+```
+
+### 4、修改页面和js，添加私信功能——自己仅接收到自己的信息
+```html
+<!-- 发送私信息 -->
+  <div class="row">
+    <div class="col-md-10">
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="message">私信</label>
+          <input type="text" id="sendPrivateMessage" class="form-control" placeholder="请在此输入你的消息">
+        </div>
+        <button id="sendPrivate" class="btn btn-default" type="button">发送私信</button>
+      </form>
+    </div>
+  </div>
+```
+```js
+function connect() {
+    const socket = new SockJS("our-websocket");
+    stompClient=Stomp.over(socket);
+    stompClient.connect({},function(frame){
+        console.log("连接："+frame);
+        //公共信息通过
+        stompClient.subscribe("/topic/message",function (message){
+            showMessage(JSON.parse(message.body).content)
+        })
+        //私信通过——前加user
+        stompClient.subscribe("/user/topic/privateMessage",function (message){
+            showMessage(JSON.parse(message.body).content)
+        })
+    })
+}
+function sendPrivateMessage(){
+    console.log("发送私消息：")
+    stompClient.send("ws/privateMessage",{},JSON.stringify({"content":$("#sendPrivateMessage").val()}))
+}
+```
+**注：私信连接路径前前加`/user/`**
