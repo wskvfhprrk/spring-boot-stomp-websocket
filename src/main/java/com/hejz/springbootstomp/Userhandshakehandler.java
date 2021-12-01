@@ -16,7 +16,8 @@ import java.util.UUID;
 @Slf4j
 public class Userhandshakehandler extends DefaultHandshakeHandler {
     @Override
-    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes){
+        //编号可以实为客户id或者token值
         final String id= UUID.randomUUID().toString().replaceAll("-","");
         log.info("登陆用户ID:{}",id);
         return new UserPrincipal(id);
