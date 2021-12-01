@@ -289,3 +289,4 @@ function sendPrivateMessage(){
         wsService.privateNotify(id,message);
     }
 ```
+## 4、重构代码——用直接用于生产的方法Notificationservice（详见代码）和重构接口（详见代码）
