@@ -16,7 +16,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
         //添加端点
-        registry.addEndpoint("our-websocket").withSockJS();
+        registry.addEndpoint("our-websocket")
+                //添加自定义握手
+                .setHandshakeHandler(new Userhandshakehandler())
+                .withSockJS();
     }
 
     /**

@@ -198,6 +198,28 @@ public class WsController {
     }
 }
 ```
-### 3、使用postman或其它测试工具测试
-
-## 2、实现和单个用户通信
+### 3、使用postman或其它测试工具测试（略）
+## 实现和单个用户通信
+### 1、区分用户在websocket进行所握手时给每个用户建立一个id可以区分客户端，建立Userhandshakehandler类
+```java
+@Slf4j
+public class Userhandshakehandler extends DefaultHandshakeHandler {
+    @Override
+    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+        final String id= UUID.randomUUID().toString().replaceAll("-","");
+        log.info("登陆用户ID:{}",id);
+        return new UserPrincipal(id);
+    }
+}
+```
+### 2、在websocket配置类中添加自定义握手hendler——WebSocketConfig:
+```java
+    @Override
+    public void registerStompEndpoints(final StompEndpointRegistry registry) {
+        //添加端点
+        registry.addEndpoint("our-websocket")
+                //添加自定义握手
+                .setHandshakeHandler(new Userhandshakehandler())
+                .withSockJS();
+    }
+```
