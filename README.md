@@ -289,4 +289,11 @@ function sendPrivateMessage(){
         wsService.privateNotify(id,message);
     }
 ```
-## 4、重构代码——用直接用于生产的方法Notificationservice（详见代码）和重构接口（详见代码）
+## 四、重构代码——用直接用于生产的方法Notificationservice（详见代码）和重构接口（详见代码）
+## 五、未实现的功能及设想：
+### 1、考虑到客户端有时候由于断网原因未能够时时连接服务器，需要客户端也服务器间进行心跳——客户端轮询经过私信给服务器，
+服务器应该及时反馈给客户端一个影响字段，如果客户端收到即表示正常，如果收不到表示服务器websocket连接中断，立即发送重新连接。
+同时，为了记录服务器连接客户端实时情况，及时发现连接不上服务器的客户端，采用每次心跳记录的方法是非常占资源的，
+应该改为缓存记录加上RabbitMQ的缓存消息队列，来发管理服务器连接状态比较合理，详情见——ClientStatus.puml
+### 2、发私信的id使用userId或者token都可以，根据业务需要，不用来回转就可以了，否则需要缓存。
+### 3、websocket连接数使用nio——netty框架，单体tomcat数量可以上万，如果配置[WebSocket轻松单台服务器5w并发jmeter实测](https://blog.csdn.net/weixin_34379433/article/details/91365773)

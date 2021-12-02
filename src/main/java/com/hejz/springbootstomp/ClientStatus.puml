@@ -1,0 +1,13 @@
+@startuml
+'websocket客户端在线状态管理
+
+autonumber
+
+client -> service: 通过websoket私信发送心跳请求
+service --> client: 返回接受到心跳信息
+service -> redis: 缓存记录下最后一次访问时间
+service -> rebbimq: 发送延时消息（延时时间大于心跳时间）
+rebbimq -->service: 延时消息到时间会发送消息让服务器检查缓存中客户端最后一次记录时间超时再记录到数据库：最后一次心跳时间，客户端状态为未连接。
+
+client -> service: 如果长时间接收到服务器发送的心跳确认信息，发请求连接
+@enduml
