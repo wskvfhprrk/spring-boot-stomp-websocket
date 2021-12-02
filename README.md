@@ -1,6 +1,7 @@
 # spring-boot-stomp-websocket
 spring boot 实现stomp的websocket通信
-学习视频来源[youtube](https://www.youtube.com/watch?v=XY5CUuE6VOk)
+## 学习视频来源
+[youtube](https://www.youtube.com/watch?v=XY5CUuE6VOk)
 ## 一、配置
 ### 1、引用jar包
 ```xml
