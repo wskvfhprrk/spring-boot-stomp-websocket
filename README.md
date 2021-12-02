@@ -272,7 +272,7 @@ function sendPrivateMessage(){
     stompClient.send("ws/privateMessage",{},JSON.stringify({"content":$("#sendPrivateMessage").val()}))
 }
 ```
-** 注：私信连接路径前前加`/user/`**
+**注：私信连接路径前前加`/user/`** 
 ### 5、添加服务器主动向客户端推送私信
 #### 1）在WsService中添加私信服务方法：
 ```java
